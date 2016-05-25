@@ -7,7 +7,7 @@ Two examples on how to use MCIDiff API are listed in the test package under src/
 
 The differencing result of MCIDiff contains line information such as token position and token offset. Generally, you may need to change the line delimiter into Windows form. Otherwise, the line information get incorrect.
 
-If you need to reference our technique, please use the following citation:
+If you need to reference our technique, please use the following citations:
 
 Yun Lin, Xin Peng, Zhenchang Xing, Diwen Zheng, and Wenyun Zhao. 2015. Clone-based and interactive recommendation for modifying pasted code. In Proceedings of the 2015 10th Joint Meeting on Foundations of Software Engineering (ESEC/FSE 2015). ACM, New York, NY, USA, 520-531. DOI=http://dx.doi.org/10.1145/2786805.2786871
 
