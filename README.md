@@ -5,7 +5,7 @@ The project is built as an Eclipse plugin by default as MCIDiff replies on the J
 
 Two examples on how to use MCIDiff API are listed in the test package under src/test directory.
 
-The differencing result of MCIDiff contains line information such as token position and token offset. Generally, you may need to change the line delimiter into Windows form. Otherwise, the line information get incorrect.
+The differencing result of MCIDiff contains line information such as token position and token offset. Generally, you may need to change the line delimiter into Windows form (i.e., \r\n). Otherwise, the line information get incorrect.
 
 If you need to reference our technique, please use the following citations:
 
@@ -13,6 +13,6 @@ Yun Lin, Xin Peng, Zhenchang Xing, Diwen Zheng, and Wenyun Zhao. 2015. Clone-bas
 
 Yun Lin, Zhenchang Xing, Yinxing Xue, Yang Liu, Xin Peng, Jun Sun, and Wenyun Zhao. 2014. Detecting differences across multiple instances of code clones. In Proceedings of the 36th International Conference on Software Engineering (ICSE 2014). ACM, New York, NY, USA, 164-174. DOI=http://dx.doi.org/10.1145/2568225.2568298
 
-If you have any problem on using our code, please feel free to contact me by: llmhyy@gmail.com or linyun@fudan.edu.cn
+If you have any problem on using our code, please feel free to contact me by: llmhyy@gmail.com or linyun@fudan.edu.cn. You can also contact Prof. Zhenchang Xing (zcxing@ntu.edu.sg) or Prof. Xin Peng (pengxin@fudan.edu.cn) for more information.
 
 
