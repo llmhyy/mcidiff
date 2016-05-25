@@ -136,6 +136,11 @@ public class ASTUtil {
 		return everything;
 	}
 	
+	public static CompilationUnit generateCompilationUnit(String fileName, IJavaProject project){
+		CloneInstance instance = new CloneInstance(fileName, -1, -1);
+		return generateCompilationUnit(instance, project);
+	}
+	
 	/**
 	 * 
 	 * @param rangeContent
