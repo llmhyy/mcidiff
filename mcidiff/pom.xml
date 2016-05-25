@@ -5,7 +5,7 @@
 	<artifactId>mcidiff</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>MCIDiff</name>
-	<packaging>eclipse-plugin</packaging>
+	<!-- <packaging>eclipse-plugin</packaging>
 	<description>A library for detecting 
 		differences across multiple clone instances</description>
 	<properties>
@@ -28,7 +28,7 @@
 				<extensions>true</extensions>
 			</plugin>
 		</plugins>
-	</build>
+	</build> -->
 
 
 </project>

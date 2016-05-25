@@ -67,4 +67,16 @@ public class SeqMultiset extends Multiset{
 		
 		return false;
 	}
+	
+	public boolean containsDuplicate(){
+		for(int i=0; i<sequences.size(); i++){
+			for(int j=i+1; j<sequences.size(); j++){
+				if(sequences.get(i).equals(sequences.get(j))){
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
 }
