@@ -3,7 +3,7 @@ This project is built for computing differences of multiple clone instances.
 
 The project is built as an Eclipse plugin by default as MCIDiff replies on the JDT API to parse syntactic information of program. If you want to build the project into a common Java project, you can replace the pom.xml by the pom-application.xml file.
 
-Two examples are listed in the test package under src/test directory.
+Two examples on how to use MCIDiff API are listed in the test package under src/test directory.
 
 If you need to reference our technique, please use the following citation:
 
