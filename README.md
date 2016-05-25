@@ -18,6 +18,6 @@ Yun Lin, Xin Peng, Zhenchang Xing, Diwen Zheng, and Wenyun Zhao. 2015. Clone-bas
 Yun Lin, Zhenchang Xing, Yinxing Xue, Yang Liu, Xin Peng, Jun Sun, and Wenyun Zhao. 2014. Detecting differences across multiple instances of code clones. In Proceedings of the 36th International Conference on Software Engineering (ICSE 2014). ACM, New York, NY, USA, 164-174. DOI=http://dx.doi.org/10.1145/2568225.2568298
 
 ## Contact
-If you have any problem on using our code, please feel free to contact me by: llmhyy@gmail.com or linyun@fudan.edu.cn. You can also contact Prof. Zhenchang Xing (zcxing@ntu.edu.sg) or Prof. Xin Peng (pengxin@fudan.edu.cn) for more information.
+If you have any problem on using our code, please feel free to contact me by: llmhyy@gmail.com or linyun@fudan.edu.cn. You can also contact Prof. Xin Peng (pengxin@fudan.edu.cn) or Prof. Zhenchang Xing (zcxing@ntu.edu.sg) for more information.
 
 
