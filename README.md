@@ -1,8 +1,8 @@
 # MCIDiff
 This project is built for computing differences of multiple clone instances. The differencing result is able to regard syntactic boundary.
 
-## Plugin vs Oridinary Java Application 
-The project is built as an Eclipse plugin by default as MCIDiff replies on the JDT API to parse syntactic information of program. If you want to build the project into a common Java project, you can replace the pom.xml by the pom-application.xml file.
+## Eclipse Plugin vs Oridinary Java Application 
+The project is built as an Eclipse plugin by default as MCIDiff is designed for being integrating into SE tools. Building tools in terms of Eclipse plugin is a mainstream in SE community. If you want to build the project into a common Java project, you can replace the pom.xml by the pom-application.xml file.
 
 ## Example
 Examples on how to use MCIDiff API are listed in the test package under src/test directory. MCIDiff provide two alternatives to diff the cloned code, (1) token-based diff, which report diff result in terms of tokens; and (2) token-sequence-based diff, which report diff result in terms of token sequence regarding the syntactic boundary. The token-based diff technique is proposed in our ICSE'14 work and the token-sequence-based diff technique is proposed in our FSE'15 work. Please check more details in the Citation Section.
