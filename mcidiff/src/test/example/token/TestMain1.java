@@ -1,11 +1,11 @@
-package test;
+package example.token;
 
 import java.util.ArrayList;
 
-import mcidiff.main.SeqMCIDiff;
+import mcidiff.main.TokenMCIDiff;
 import mcidiff.model.CloneInstance;
 import mcidiff.model.CloneSet;
-import mcidiff.model.SeqMultiset;
+import mcidiff.model.TokenMultiset;
 
 public class TestMain1 {
 	
@@ -25,7 +25,7 @@ public class TestMain1 {
 		set.addInstance(instance3);
 		
 		try {
-			ArrayList<SeqMultiset> multisets = new SeqMCIDiff().diff(set, null);
+			ArrayList<TokenMultiset> multisets = new TokenMCIDiff().diff(set, null);
 			System.out.println(multisets);
 			
 		} catch (Exception e) {

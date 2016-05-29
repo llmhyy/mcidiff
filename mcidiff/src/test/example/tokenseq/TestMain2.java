@@ -1,4 +1,4 @@
-package test;
+package example.tokenseq;
 
 import java.util.ArrayList;
 
