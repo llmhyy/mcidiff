@@ -5,7 +5,7 @@ This project is built for computing differences of multiple clone instances. The
 The project is built as an Eclipse plugin by default as MCIDiff replies on the JDT API to parse syntactic information of program. If you want to build the project into a common Java project, you can replace the pom.xml by the pom-application.xml file.
 
 ## Example
-Two examples on how to use MCIDiff API are listed in the test package under src/test directory.
+Examples on how to use MCIDiff API are listed in the test package under src/test directory. MCIDiff provide two alternatives to diff the cloned code, (1) token-based diff, which report diff result in terms of tokens; and (2) token-sequence-based diff, which report diff result in terms of token sequence regarding the syntactic boundary.
 
 ## Line Delimiter 
 The differencing result of MCIDiff contains line information such as token position and token offset. Generally, you may need to change the line delimiter into Windows form (i.e., \r\n). Otherwise, the line information get incorrect.
