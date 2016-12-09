@@ -181,6 +181,10 @@ public class SeqMCIDiff{
 				}
 			}
 			
+			if(newSeq.getTokens().size()==0){
+				System.currentTimeMillis();
+			}
+			
 			newSeqMultiset.addTokenSeq(newSeq);
 		}
 		
@@ -364,10 +368,25 @@ public class SeqMCIDiff{
 					
 					if(completeUnit.size() == 0){
 						ArrayList<TokenSeq> seqList = trySplitingByDelimiter(seq);
+						
+						for(TokenSeq s: seqList){
+							if(s.getTokens().size()==0){
+								System.currentTimeMillis();
+							}
+						}
+						
 						list.addAll(seqList);
 					}
 					else{
 						ArrayList<TokenSeq> seqList = generateSeparateRanges(seq, completeUnit);
+						
+						for(TokenSeq s: seqList){
+							if(s.getTokens().size()==0){
+								System.currentTimeMillis();
+								seqList = generateSeparateRanges(seq, completeUnit);
+							}
+						}
+						
 						list.addAll(seqList);
 					}
 				}
@@ -625,44 +644,42 @@ public class SeqMCIDiff{
 	private ArrayList<TokenSeq> generateSeparateRanges(TokenSeq seq, ArrayList<ASTNode> completeUnit) {
 		ArrayList<TokenSeq> seqList = new ArrayList<>();
 		
-		int preIndex = -1;
-		int postIndex = seq.getTokens().size();
-		Token prepartialToken = findPrepartialToken(seq, completeUnit);
-		Token postpartialToken = findPostpartialToken(seq, completeUnit);
+		int firstPosition = findFirstTokenPosition(completeUnit);
+		int secondPosition = findLastTokenPosition(completeUnit);
 		
+		if(firstPosition > secondPosition){
+			System.err.println("the first position is larger than the second position when splitting a range");
+		}
 		
-		if(prepartialToken != null){
-			preIndex = seq.getTokens().indexOf(prepartialToken);
-			TokenSeq prepartialSeq = new TokenSeq();
-			for(int i=0; i<=preIndex; i++){
-				prepartialSeq.addToken(seq.getTokens().get(i));
+		TokenSeq preTokenSeq = new TokenSeq();
+		TokenSeq midTokenSeq = new TokenSeq();
+		TokenSeq postTokenSeq = new TokenSeq();
+		
+		for(Token token: seq.getTokens()){
+			if(token.getStartPosition() < firstPosition){
+				preTokenSeq.addToken(token);
 			}
-			seqList.add(prepartialSeq);
-		}
-		
-		boolean hasPostpartial = false;
-		if(postpartialToken != null){
-			hasPostpartial = true;
-			postIndex = seq.getTokens().indexOf(postpartialToken);
-			TokenSeq postpartialSeq = new TokenSeq();
-			for(int i=postIndex; i<seq.getTokens().size(); i++){
-				postpartialSeq.addToken(seq.getTokens().get(i));
+			else if(token.getStartPosition() > secondPosition){
+				postTokenSeq.addToken(token);
 			}
-			seqList.add(postpartialSeq);
+			else{
+				midTokenSeq.addToken(token);
+			}
 		}
 		
-		TokenSeq middleSyntaxCompleteSeq = new TokenSeq();
-		for(int i=preIndex+1; i<postIndex; i++){
-			middleSyntaxCompleteSeq.addToken(seq.getTokens().get(i));
+		if(preTokenSeq.getTokens().isEmpty()){
+			preTokenSeq = TokenSeq.createEpisolonTokenSeq(seq.getCloneInstance());
 		}
-		seqList.add(middleSyntaxCompleteSeq);
+		if(midTokenSeq.getTokens().isEmpty()){
+			midTokenSeq = TokenSeq.createEpisolonTokenSeq(seq.getCloneInstance());
+		}
+		if(postTokenSeq.getTokens().isEmpty()){
+			postTokenSeq = TokenSeq.createEpisolonTokenSeq(seq.getCloneInstance());
+		}
 		
-		if(hasPostpartial){
-			int size = seqList.size();
-			TokenSeq tmp = seqList.get(size-1);
-			seqList.set(size-1, seqList.get(size-2));
-			seqList.set(size-2, tmp);
-		}
+		seqList.add(0, preTokenSeq);
+		seqList.add(1, midTokenSeq);
+		seqList.add(2, postTokenSeq);
 		
 		return seqList;
 	}
@@ -676,45 +693,38 @@ public class SeqMCIDiff{
 	 * @param completeUnit
 	 * @return
 	 */
-	private Token findPrepartialToken(TokenSeq seq, ArrayList<ASTNode> completeUnit) {
-		int leastIndex = findFirstTokenPosition(completeUnit);
+	private TokenSeq findPrepartialTokenSeq(TokenSeq seq, ArrayList<ASTNode> completeUnit) {
+		int leastPosition = findFirstTokenPosition(completeUnit);
 		
-		Token prepartialToken = null;
-		int leastInterval = -1;
+		TokenSeq preSeq = new TokenSeq();
 		
 		for(Token token: seq.getTokens()){
-			if(token.getStartPosition() < leastIndex){
-				int interval = leastIndex - token.getStartPosition();
-				if(leastInterval == -1){
-					leastInterval = interval;
-					prepartialToken = token;
-				}
-				else{
-					if(leastInterval > interval){
-						leastInterval = interval;
-						prepartialToken = token;
-					}
-				}
+			if(token.getStartPosition() < leastPosition){
+				preSeq.addToken(token);
 			}
 		}
 		
-		return prepartialToken;
+		if(seq.getTokens().isEmpty()){
+			preSeq = TokenSeq.createEpisolonTokenSeq(seq.getCloneInstance());
+		}
+		
+		return preSeq;
 	}
 	
 	private int findFirstTokenPosition(ArrayList<ASTNode> completeUnit){
-		int leastIndex = -1;
+		int leastPosition = -1;
 		for(ASTNode node: completeUnit){
-			if(leastIndex == -1){
-				leastIndex = node.getStartPosition();
+			if(leastPosition == -1){
+				leastPosition = node.getStartPosition();
 			}
 			else{
-				if(leastIndex > node.getStartPosition()){
-					leastIndex = node.getStartPosition();
+				if(leastPosition > node.getStartPosition()){
+					leastPosition = node.getStartPosition();
 				}
 			}
 		}
 		
-		return leastIndex;
+		return leastPosition;
 	}
 	
 	/**
@@ -726,29 +736,24 @@ public class SeqMCIDiff{
 	 * @param completeUnit
 	 * @return
 	 */
-	private Token findPostpartialToken(TokenSeq seq, ArrayList<ASTNode> completeUnit) {
-		int lastIndex = findLastTokenPosition(completeUnit);
+	private TokenSeq findPostpartialToken(TokenSeq seq, ArrayList<ASTNode> completeUnit) {
+		int lastPosition = findLastTokenPosition(completeUnit);
 		
 		Token postpartialToken = null;
 		int leastInterval = -1;
 		
+		TokenSeq postSeq = new TokenSeq();
 		for(Token token: seq.getTokens()){
-			if(token.getEndPosition() > lastIndex){
-				int interval = token.getEndPosition() - lastIndex;
-				if(leastInterval == -1){
-					leastInterval = interval;
-					postpartialToken = token;
-				}
-				else{
-					if(leastInterval > interval){
-						leastInterval = interval;
-						postpartialToken = token;
-					}
-				}
+			if(token.getEndPosition() > lastPosition){
+				postSeq.addToken(token);
 			}
 		}
 		
-		return postpartialToken;
+		if(seq.getTokens().isEmpty()){
+			postSeq = TokenSeq.createEpisolonTokenSeq(seq.getCloneInstance());
+		}
+		
+		return postSeq;
 	}
 	
 	private int findLastTokenPosition(ArrayList<ASTNode> completeUnit){
