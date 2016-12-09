@@ -1,6 +1,7 @@
 package mcidiff.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TokenMultiset extends Multiset{
 	
@@ -110,6 +111,11 @@ public class TokenMultiset extends Multiset{
 		}
 		
 		return false;
+	}
+
+	@Override
+	public List<? extends DiffElement> getDiffElements() {
+		return tokens;
 	}
 	
 }

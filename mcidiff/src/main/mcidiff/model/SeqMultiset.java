@@ -1,6 +1,7 @@
 package mcidiff.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SeqMultiset extends Multiset{
 	private ArrayList<TokenSeq> sequences = new ArrayList<>();
@@ -78,5 +79,10 @@ public class SeqMultiset extends Multiset{
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public List<? extends DiffElement> getDiffElements() {
+		return sequences;
 	}
 }

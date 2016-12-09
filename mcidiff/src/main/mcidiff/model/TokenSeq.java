@@ -28,7 +28,7 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
  * @author linyun
  *
  */
-public class TokenSeq {
+public class TokenSeq implements DiffElement{
 	private ArrayList<Token> tokens = new ArrayList<>();
 	private String text;
 	

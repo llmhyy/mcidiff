@@ -14,7 +14,7 @@ import org.eclipse.jdt.core.dom.SuperMethodInvocation;
 import org.eclipse.jdt.core.dom.Type;
 
 
-public class Token {
+public class Token implements DiffElement{
 	
 	public static String episolonSymbol = "e*";
 	
