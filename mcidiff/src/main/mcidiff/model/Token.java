@@ -103,7 +103,8 @@ public class Token implements DiffElement{
 			}
 		}
 		
-		return node1.getNodeType() == node2.getNodeType();
+//		return node1.getNodeType() == node2.getNodeType();
+		return true;
 	}
 	
 	/**

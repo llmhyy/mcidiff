@@ -15,7 +15,7 @@ public class MCIDiffGlobalSettings {
 	 * length of parent node is n (e.g., 10) times larger than that of child node, such
 	 * parent will not be considered.
 	 */
-	public static int godParentRatio = 5;
+	public static int godParentRatio = 30;
 	
 	/**
 	 * the idea is that if the two to-be-compared synonym tokens are very far way considering

@@ -71,6 +71,7 @@ public class DiffUtil {
 		else{
 			if (lists.length > 2) {
 				for (int k = 1; k < lists.length; k++) {
+					System.out.println(lists[k].get(0).getCloneInstance().getFileName());
 					cls = generateMatchedTokenList(cls, lists[k].toArray(new Token[0]));
 				}
 			}

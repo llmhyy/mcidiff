@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import mcidiff.model.CloneInstance;
-
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.ToolFactory;
 import org.eclipse.jdt.core.compiler.IScanner;
@@ -23,7 +21,8 @@ import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
-import org.eclipse.jdt.core.dom.VariableDeclaration;
+
+import mcidiff.model.CloneInstance;
 
 public class ASTUtil {
 	public static ArrayList<String> parseTokens(String content){
@@ -155,7 +154,7 @@ public class ASTUtil {
 			instance.setFileContent(content);
 		}
 		
-		ASTParser parser = ASTParser.newParser(AST.JLS3);
+		ASTParser parser = ASTParser.newParser(AST.JLS8);
 		parser.setSource(instance.getFileContent().toCharArray());
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		if(project != null){
@@ -240,20 +239,20 @@ public class ASTUtil {
 			return false;
 		}
 		else if(binding.getKind() == IBinding.VARIABLE){
-			ASTNode node = name.getParent();
-			while(!(node instanceof VariableDeclaration)){
-				node = node.getParent();
-				if(node == null){
-					break;
-				}
-			}
-			
-			if(node != null){
-				if(node instanceof VariableDeclaration){
-					VariableDeclaration vd = (VariableDeclaration)node;
-					return vd.getName().equals(name);
-				}
-			}
+//			ASTNode node = name.getParent();
+//			while(!(node instanceof VariableDeclaration)){
+//				node = node.getParent();
+//				if(node == null){
+//					break;
+//				}
+//			}
+//			
+//			if(node != null){
+//				if(node instanceof VariableDeclaration){
+//					VariableDeclaration vd = (VariableDeclaration)node;
+//					return vd.getName().equals(name);
+//				}
+//			}
 			return false;
 		}
 		

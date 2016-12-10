@@ -38,7 +38,15 @@ public class TokenSimilarityComparator{
 				contextualSim = textualSim;
 				
 				// the following code could be commented for improving efficiency
-				if(!isGodParent(node1) && !isGodParent(node2)){
+				ASTNode richParent1 = getRichParent(token1);
+				ASTNode richParent2 = getRichParent(token2);
+				
+//				if(token1.getTokenName().equals("app") && token2.getTokenName().equals("app")){
+//					System.out.println("parent1: " + richParent1);
+//					System.out.println("parent2: " + richParent2);
+//				}
+				
+				if(!isGodParent(richParent1, node1) && !isGodParent(richParent2, node2)){
 					contextualSim = FastASTNodeComparator.computeNodeSim(node1.getParent(), node2.getParent());
 				}				
 			}
@@ -46,15 +54,46 @@ public class TokenSimilarityComparator{
 				System.currentTimeMillis();
 			}
 			
-			//double avgWeight = (1.0)/3;
-			return 0.3*contextualSim + 0.4*textualSim + 0.3*positionSim;
+			double sim = 0.7*contextualSim + 0.1*textualSim + 0.2*positionSim;
+			
+//			if(token1.getTokenName().equals("app") && token2.getTokenName().equals("app")){
+//				System.out.println(sim);
+//				System.out.println();
+//			}
+			
+			return sim;
 		}
 		
 		return 0;
 	};	
 	
-	private boolean isGodParent(ASTNode child){
-		ASTNode parent = child.getParent();
+	/**
+	 * In some cases, the AST node of a token is exactly the same as the token name, in this case,
+	 * the AST node used for the context cannot contain information to distinguish token context any more.
+	 * For example, if the AST node is a SimpleName, then the context information is exactly as the 
+	 * token itself. In such case, I need to find a better context, i.e., a parent AST node with more
+	 * information.
+	 * 
+	 * @param node
+	 * @return
+	 */
+	private ASTNode getRichParent(Token token) {
+		ASTNode node = token.getNode();
+		if(node == null){
+			return node;
+		} else{
+			String nodeText = node.toString();
+			while(nodeText.equals(token.getTokenName())){
+				node = node.getParent();
+				nodeText = node.toString();
+				System.currentTimeMillis();
+			}
+			
+			return node;
+		}
+	}
+
+	private boolean isGodParent(ASTNode parent, ASTNode child){
 		if(parent == null){
 			return true;
 		}
