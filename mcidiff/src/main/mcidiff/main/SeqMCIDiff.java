@@ -368,25 +368,10 @@ public class SeqMCIDiff{
 					
 					if(completeUnit.size() == 0){
 						ArrayList<TokenSeq> seqList = trySplitingByDelimiter(seq);
-						
-						for(TokenSeq s: seqList){
-							if(s.getTokens().size()==0){
-								System.currentTimeMillis();
-							}
-						}
-						
 						list.addAll(seqList);
 					}
 					else{
 						ArrayList<TokenSeq> seqList = generateSeparateRanges(seq, completeUnit);
-						
-						for(TokenSeq s: seqList){
-							if(s.getTokens().size()==0){
-								System.currentTimeMillis();
-								seqList = generateSeparateRanges(seq, completeUnit);
-							}
-						}
-						
 						list.addAll(seqList);
 					}
 				}
@@ -466,6 +451,7 @@ public class SeqMCIDiff{
 					for(ArrayList<TokenSeq> otherSeqList: otherSeqLists){
 						CloneInstance cloneInstance = otherSeqList.get(0).getCloneInstance();
 						TokenSeq otherSeq = identifyMostSimilarSeq(otherSeqList, seq, tokenMultisets);
+						
 						if(otherSeq != null){
 							seqMultiset.addTokenSeq(otherSeq);
 							if(!isConformToValidatedOrder(seqMultiset, seqMultisetList)){
@@ -579,15 +565,25 @@ public class SeqMCIDiff{
 			return 1;
 		}
 		else if(!seq.isEpisolonTokenSeq() && !otherSeq.isEpisolonTokenSeq()){
-			int commonTokenNum = 0;
-			for(Token t: seq.getTokens()){
-				Token corresToken = findCorrespondenceToken(tokenMultisets, t, otherSeq.getCloneInstance());
-				if(otherSeq.getTokens().contains(corresToken)){
-					commonTokenNum++;
-				}
+			ArrayList<ASTNode> nodeList = seq.findContainedCompleteASTNodeList();
+			ArrayList<ASTNode> otherNodeList = otherSeq.findContainedCompleteASTNodeList();
+			
+			if(nodeList.isEmpty() && otherNodeList.isEmpty()){
+				return 1;
+			}
+			else if(!nodeList.isEmpty() && !otherNodeList.isEmpty()){
+				ASTNode node = nodeList.get(0);
+				ASTNode otherNode = otherNodeList.get(0);
+				
+				int similarityLevel = ASTUtil.computeTypeDifferenceLevel(node, otherNode);
+				
+				double sim = ((double)similarityLevel)/5;
+				return sim;
+			}
+			else{
+				return 0;
 			}
 			
-			return ((double)commonTokenNum)*2/(seq.getTokens().size()+otherSeq.getTokens().size());
 		}
 		else{
 			return 0;			

@@ -25,6 +25,56 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 import mcidiff.model.CloneInstance;
 
 public class ASTUtil {
+	/**
+	 * 
+	 * @param node1
+	 * @param node2
+	 * @return
+	 */
+	public static int computeTypeDifferenceLevel(ASTNode node1, ASTNode node2){
+		if(node1.getNodeType()==node2.getNodeType()){
+			return 5;
+		}
+		else{
+			Class<?> node1Type = node1.getClass();
+			Class<?> node2Type = node2.getClass();
+			
+			ArrayList<Class<?>> superClassChain1 = findSuperClassChain(node1Type);
+			ArrayList<Class<?>> superClassChain2 = findSuperClassChain(node2Type);
+			
+			int length = (superClassChain1.size() < superClassChain2.size()) ? superClassChain1.size() : superClassChain2.size();
+			
+			int similarLevel = 0;
+			for(int i=2; i<length; i++){
+				Class<?> class1 = superClassChain1.get(i);
+				Class<?> class2 = superClassChain2.get(i);
+				
+				if(class1.equals(class2)){
+					similarLevel++;
+				}
+			}
+			
+			return similarLevel;
+		}
+	}
+	
+	private static ArrayList<Class<?>> findSuperClassChain(Class<?> node1Type) {
+		ArrayList<Class<?>> chain = new ArrayList<>();
+		Class<?> superClass = node1Type.getSuperclass();
+		while(superClass != null){
+			chain.add(superClass);
+			superClass = superClass.getSuperclass();
+		}
+		
+		for(int i=0; i<chain.size()/2; i++){
+			Class<?> tmp = chain.get(chain.size()-1);
+			chain.set(chain.size()-1-i, chain.get(i));
+			chain.set(i, tmp);
+		}
+		
+		return chain;
+	}
+
 	public static ArrayList<String> parseTokens(String content){
 		ArrayList<String> tokenList = new ArrayList<>();
 		

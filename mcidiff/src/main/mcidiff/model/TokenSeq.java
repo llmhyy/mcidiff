@@ -301,6 +301,38 @@ public class TokenSeq implements DiffElement{
 		return true;
 	}
 	
+	public ArrayList<ASTNode> findContainedCompleteASTNodeList(){
+		ArrayList<ASTNode> list = new ArrayList<>();
+		int startPosition = getStartPosition();
+		int endPosition = getEndPosition();
+		
+		for(Token token: this.getTokens()){
+			ASTNode node = token.getNode();
+			if(node != null){
+				ASTNode fitNode = node; 
+				ASTNode parent = node.getParent();
+				while(parent != null){
+					int parentStartPosition = parent.getStartPosition();
+					int parentEndPosition = parent.getStartPosition()+parent.getLength();
+					
+					if(startPosition<=parentStartPosition && parentEndPosition<=endPosition){
+						fitNode = parent;
+						parent = parent.getParent();
+					}
+					else{
+						break;
+					}
+				}
+				
+				if(!list.contains(fitNode)){
+					list.add(fitNode);
+				}
+			}
+		}
+		
+		return list;
+	}
+	
 	/**
 	 * Find the completely contained methods, fields, or inner classes. Therefore, the ASTNode returned
 	 * by this method should only be MethodDeclaration, FieldDeclaration, and TypeDeclaration 
