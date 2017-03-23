@@ -205,11 +205,16 @@ public class ASTUtil {
 		}
 		
 		ASTParser parser = ASTParser.newParser(AST.JLS8);
-		parser.setSource(instance.getFileContent().toCharArray());
+		char[] content = instance.getFileContent().toCharArray();
+		parser.setSource(content);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		if(project != null){
+			String contentString = String.valueOf(content);
+			int fromIndex = contentString.indexOf("package");
+			String packageString = contentString.substring(fromIndex+8, contentString.indexOf(";", fromIndex));
+			packageString = packageString.replace(".", "/");
 			String path = instance.getFileName();
-			String unitName = path.substring(path.indexOf(project.getProject().getName()));
+			String unitName = path.substring(path.indexOf(packageString));
 			unitName = unitName.replace("\\", "/");
 			unitName = "/" + unitName;
 			
