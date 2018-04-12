@@ -1,6 +1,8 @@
 # MCIDiff
 This project is built for computing differences of multiple clone instances. The differencing result is able to regard syntactic boundary.
 
+![Snapshot of MCIDiff](/diagram/screen.png?raw=true "Snapshot of MCIDiff")
+
 ## Eclipse Plugin vs Oridinary Java Application 
 The project is built as an Eclipse plugin by default as MCIDiff is designed for being integrating into SE tools. Building tools in terms of Eclipse plugin is a mainstream in SE community. If you want to build the project into a common Java project, you can replace the pom.xml by the pom-application.xml file.
 
