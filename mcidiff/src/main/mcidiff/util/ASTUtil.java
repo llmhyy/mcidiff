@@ -1,6 +1,7 @@
 package mcidiff.util;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -210,9 +211,13 @@ public class ASTUtil {
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		if(project != null){
 			String contentString = String.valueOf(content);
-			int fromIndex = contentString.indexOf("package");
+			
+			int commentEnd = contentString.indexOf("*/");
+			
+			int fromIndex = contentString.indexOf("package", commentEnd+1);
 			String packageString = contentString.substring(fromIndex+8, contentString.indexOf(";", fromIndex));
-			packageString = packageString.replace(".", "/");
+			
+			packageString = packageString.replace(".", File.separator);
 			String path = instance.getFileName();
 			String unitName = path.substring(path.indexOf(packageString));
 			unitName = unitName.replace("\\", "/");
